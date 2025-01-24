@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+namespace 后面的路径是实体类的路径 ，id是方法名字，resultType 是返回数据类型的格式，也可以设置返回实体类。
+-->
+<mapper namespace="org.example.mapper.ClassinfoMapper">
+    <!--
+        resultMap: 自定义从数据库结果集到 Java 对象的映射方式
+        property 属性指的是 Java 对象中的属性名，而 column 属性指的是查询出的列名
+    -->
+    <resultMap id="BaseResultMap" type="org.example.pojo.Classinfo">
+        <id column="SysId" jdbcType="VARCHAR" property="id" />
+        <result column="Pid" jdbcType="VARCHAR" property="parentId" />
+        <result column="Name" jdbcType="VARCHAR" property="className" />
+    </resultMap>
+
+    <select id="selectClassinfo" resultType="org.example.pojo.Classinfo" parameterType="java.util.Map">
+        select
+        id,
+        parentId,
+        className,
+        teacher
+        from classinfo
+        where 1=1
+        <if test="className !=null and className !=''">
+            and className like CONCAT('%',#{className},'%')
+        </if>
+        order by className
+    </select>
+
+    <select id="selectClassData" resultMap="BaseResultMap">
+        select
+        id as SysId,
+        parentId as Pid,
+        className as Name
+        from classinfo
+    </select>
+
+</mapper>
