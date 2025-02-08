@@ -4,10 +4,10 @@
      <div id="loginDiv">
          <el-form ref="form" label-width="70px" style="text-align: center">
            <el-form-item label="用户名：">
-             <el-input v-model="user_for_login.username" class="input01"></el-input>
+             <el-input v-model="user_for_login.username" class="input01" autocomplete="new-password"></el-input>
            </el-form-item>
            <el-form-item label="密码：" style="margin-top:-5px">
-             <el-input v-model="user_for_login.password" class="input01" show-password></el-input>
+             <el-input v-model="user_for_login.password" class="input01" show-password autocomplete="new-password"></el-input>
            </el-form-item>
            <el-button type="primary" @click="login">登录</el-button>
          </el-form>
@@ -21,13 +21,13 @@
         width="30%">
       <el-form ref="form" label-width="85px">
         <el-form-item label="用户名：">
-          <el-input v-model="user_for_register.username"></el-input>
+          <el-input v-model="user_for_register.username" autocomplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="密码：">
-          <el-input v-model="user_for_register.password" show-password></el-input>
+          <el-input v-model="user_for_register.password" show-password autocomplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="确认密码：">
-          <el-input v-model="user_for_register.confirmPassword" show-password></el-input>
+          <el-input v-model="user_for_register.confirmPassword" show-password autocomplete="new-password"></el-input>
         </el-form-item>
       </el-form>
 

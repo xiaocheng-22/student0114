@@ -1,11 +1,13 @@
 package org.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.gson.Gson;
 import org.example.mapper.StudentinfoMapper;
 import org.example.mapper.ClassinfoMapper;
 import org.example.pojo.Classinfo;
 import org.example.pojo.Studentinfo;
+import org.example.service.StudentinfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,8 @@ public class StudentinfoController {
     @Autowired
     private ClassinfoMapper classinfoMapper;
     private Gson gson = new Gson();
+    @Autowired
+    private StudentinfoService studentinfoService;
 
     String successMsg = "{\"code\":200,\"msg\":\"操作成功!\"}";
     //查新班级信息(自行写sql)
@@ -45,6 +49,29 @@ public class StudentinfoController {
     public String getClassInfoFF(){
         ArrayList<Object> classInfo=classinfoMapper.selectClassData();
         return gson.toJson(classInfo);
+    }
+    @GetMapping("/testMyBatis")
+    public Studentinfo testMyBatis(){
+        Studentinfo student=new Studentinfo();
+        student.setName("A");
+        student.setNumber("1111");
+        //studentinfoService.saveData(student);
+
+        List<Studentinfo> da01=studentinfoService.getData();
+
+        Studentinfo da02=studentinfoService.getDataById("634565456");
+
+        List<Studentinfo> da03=studentinfoService.getDataByWrapper();
+
+        studentinfoService.updateData();
+        studentinfoService.deleteData();
+        studentinfoService.deleteDatas();
+        IPage<Studentinfo> pageData = studentinfoService.getDataPage();
+        long count=studentinfoService.getDataCount();
+
+        Studentinfo one=studentinfoService.getDataOne();
+
+        return one;
     }
 
 
