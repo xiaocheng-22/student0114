@@ -10,6 +10,8 @@ import org.example.pojo.Studentinfo;
 import org.example.service.StudentinfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,8 @@ public class StudentinfoController {
     private Gson gson = new Gson();
     @Autowired
     private StudentinfoService studentinfoService;
+    //使用logback记录日志
+    private static final Logger logger = LoggerFactory.getLogger(StudentinfoController.class);
 
     String successMsg = "{\"code\":200,\"msg\":\"操作成功!\"}";
     //查新班级信息(自行写sql)
@@ -70,6 +74,16 @@ public class StudentinfoController {
         long count=studentinfoService.getDataCount();
 
         Studentinfo one=studentinfoService.getDataOne();
+
+        /* 选择合适的日志级别来记录信息至关重要。
+        一般来说，开发阶段使用 `TRACE` 和 `DEBUG` 级别的信息帮助调试，
+        生产环境则可以主要依赖 `INFO`、`WARN` 和 `ERROR` 级别的日志来监控应用状态和运营健康。
+        在配置日志时，需考虑不同环境的需求，合理设置记录级别，以避免日志文件过大或遗漏关键信息。*/
+        logger.trace("This is a TRACE message.");
+        logger.debug("This is a DEBUG message.");
+        logger.info("This is an INFO message.");
+        logger.warn("This is a WARN message.");
+        logger.error("This is an ERROR message.");
 
         return one;
     }
