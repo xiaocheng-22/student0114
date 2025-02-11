@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.example.mapper.StudentMapper;
 import org.example.mapper.UserMapper;
 import java.util.List;
+import org.example.service.ExternalApiService;
+import reactor.core.publisher.Mono;
 
 @RestController
 @CrossOrigin(origins = {"*","null"})
@@ -19,6 +21,8 @@ public class StudentController {
     @Autowired
     private UserMapper userMapper;
     private Gson gson = new Gson();
+    @Autowired
+    private ExternalApiService externalApiService;
 
     String successMsg = "{\"code\":200,\"msg\":\"操作成功!\"}";
 
@@ -47,6 +51,49 @@ public class StudentController {
         studentMapper.updateById(student);
         return successMsg;
     }
+
+    @GetMapping("/call-external-api")
+    public String callExternalApi(@RequestParam String id) {
+        //异步方式获取结果
+        Mono<String> mono =externalApiService.getData(id);
+        mono.subscribe(
+            result -> {
+                System.out.println("Received data: " + result);
+            }, // 处理成功的结果
+            error -> {
+                System.err.println("Error occurred: " + error.getMessage());
+            }, // 处理错误
+            () -> {
+                System.out.println("Request completed");
+            } // 处理完成事件
+        );
+
+        //同步方式获取结果
+        //String res=mono.block();
+        //System.out.println("同步："+res);
+
+        return "处理完成";
+    }
+
+    @GetMapping("/call-external-api2")
+    public void callExternalApi2(@RequestParam String id) {
+        //异步方式获取结果
+        //return externalApiService.getData2(id);
+
+        Mono<String> mono =externalApiService.getData2(id);
+        mono.subscribe(
+                result -> {
+                    System.out.println("Received data: " + result);
+                }, // 处理成功的结果
+                error -> {
+                    System.err.println("Error occurred: " + error.getMessage());
+                }, // 处理错误
+                () -> {
+                    System.out.println("Request completed");
+                } // 处理完成事件
+        );
+    }
+
 
 
 
