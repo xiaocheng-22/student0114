@@ -56,6 +56,7 @@ public class StudentController {
     public String callExternalApi(@RequestParam String id) {
         //异步方式获取结果
         Mono<String> mono =externalApiService.getData(id);
+        //通过subscribe处理最终结果或错误
         mono.subscribe(
             result -> {
                 System.out.println("Received data: " + result);
@@ -76,11 +77,10 @@ public class StudentController {
     }
 
     @GetMapping("/call-external-api2")
-    public void callExternalApi2(@RequestParam String id) {
-        //异步方式获取结果
-        //return externalApiService.getData2(id);
+    public Mono<String> callExternalApi2(@RequestParam String id) {
+        return externalApiService.getData2(id);
 
-        Mono<String> mono =externalApiService.getData2(id);
+        /*Mono<String> mono =externalApiService.getData2(id);
         mono.subscribe(
                 result -> {
                     System.out.println("Received data: " + result);
@@ -91,7 +91,7 @@ public class StudentController {
                 () -> {
                     System.out.println("Request completed");
                 } // 处理完成事件
-        );
+        );*/
     }
 
 
