@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.example.mapper.StudentMapper;
 import org.example.mapper.UserMapper;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.example.service.ExternalApiService;
 import reactor.core.publisher.Mono;
@@ -93,6 +96,70 @@ public class StudentController {
                 } // 处理完成事件
         );*/
     }
+
+    @GetMapping("/dataExample")
+    public void dataExample(){
+        byte b=100;
+        short s=1000;
+        int i=152000;
+        //长整型：需要后缀 L 或 l，否则会被认为是 int 类型
+        long l=1500000L;
+
+        float f=3.14f;
+        double d=3.14;
+
+        char c='A';
+        boolean flag=true;
+
+        String str="asd,asd";
+        int[] nums={1,2,3};
+        System.out.println(Arrays.toString(nums));
+
+        List<String> list=new ArrayList<String>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        System.out.println(list);
+
+        Day day=Day.MONDAY;
+        System.out.println(day);
+        Day2 day2=Day2.MONDAY;
+        System.out.println(day2.name());
+        System.out.println(day2.getChineseName());
+    }
+    //枚举类型：用于定义一组固定的常量
+    /*枚举常量的值 是枚举类型的实例，包含名称和可选的字段。
+    如果没有显式定义字段，枚举常量的值就是它们的名称（通过 name() 方法获取）。
+    枚举常量可以包含字段、方法和构造函数，这使得它们更加灵活和强大。
+    枚举常量是唯一的对象，可以通过 == 或 equals() 进行比较。*/
+    enum Day{
+        MONDAY,TUESDAY,WEDNESDAY
+    }
+    enum Day2 {
+        MONDAY("星期一", 1),
+        TUESDAY("星期二", 2),
+        WEDNESDAY("星期三", 3);
+
+        private String chineseName;
+        private int index;
+
+        // 构造函数
+        Day2(String chineseName, int index) {
+            this.chineseName = chineseName;
+            this.index = index;
+        }
+
+        // 方法
+        public String getChineseName() {
+            return chineseName;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+    }
+
+
 
 
 

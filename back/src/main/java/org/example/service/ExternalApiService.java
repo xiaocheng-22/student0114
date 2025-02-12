@@ -88,4 +88,16 @@ public class ExternalApiService {
                 .retrieve()
                 .bodyToMono(Void.class); // 发送 DELETE 请求
     }
+
+    public void fetchDataAndSave() {
+        webClient.get()
+                .uri("/endpoint")
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe(response -> {
+                    if (response != null) {
+
+                    }
+                });
+    }
 }
