@@ -4,6 +4,7 @@ import org.example.pojo.Student;
 import org.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.example.service.RedisService;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/redis")
 public class RedisController {
 
     @Autowired
@@ -19,7 +21,7 @@ public class RedisController {
 
     @Autowired
     private StudentService studentService;
-
+    //路径为：/redis/set
     @GetMapping("/set")
     public String set(@RequestParam String key, @RequestParam String value) {
         redisService.setValue(key, value);
