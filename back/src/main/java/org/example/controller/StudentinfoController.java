@@ -39,10 +39,10 @@ public class StudentinfoController {
     }
     //查询学生信息
     @GetMapping("/studentInfo")
-    public String getStudentInfo(@RequestBody HashMap<String,String> data){
-        String name=data.get("name");
+    public String getStudentInfo(@RequestParam(required = false) String name,@RequestParam(required = false) String classid){
         QueryWrapper<Studentinfo> queryWrapper=new QueryWrapper<>();
         queryWrapper.like("name",name)
+                .eq("classId",classid)
                 .orderByAsc("number");
 
         List<Studentinfo> studentInfo=studentinfoMapper.selectList(queryWrapper);
@@ -53,6 +53,11 @@ public class StudentinfoController {
     public String getClassInfoFF(){
         ArrayList<Object> classInfo=classinfoMapper.selectClassData();
         return gson.toJson(classInfo);
+    }
+    @GetMapping("/studentInfo2")
+    public String getStudentInfo2(@RequestParam(required = false) String name,@RequestParam(required = false) String classid){
+        ArrayList<Object> studentInfo=studentinfoMapper.selectStudentinfo(name,classid);
+        return gson.toJson(studentInfo);
     }
     @GetMapping("/testMyBatis")
     public Studentinfo testMyBatis(){

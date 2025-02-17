@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.StudentinfoMapper">
+
+    <select id="selectStudentinfo" resultType="org.example.pojo.Studentinfo" parameterType="java.util.Map">
+        select
+        id,
+        number,
+        name,
+        age,
+        sex,
+        address,
+        phone,
+        grade,
+        classId,
+        className,
+        teacher
+        from studentinfo
+        where 1=1
+        <if test="name !=null and name !=''">
+            and name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="classid !=null and classid !=''">
+            and classId = #{classid}
+        </if>
+        order by number
+    </select>
+
+
+</mapper>

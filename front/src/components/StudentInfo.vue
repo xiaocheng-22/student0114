@@ -1,17 +1,22 @@
 <template>
   <div id="main">
     <el-container>
-      <el-aside style="width:200px;border-right:1px solid #e2e2e2;height:calc(100vh - 110px)">
+      <el-aside style="width:200px;padding-top:5px;border-right:1px solid #e2e2e2;height:calc(100vh - 110px)">
           <!--default-expand-all全部展开，:expand-on-click-node禁止点击节点文本控制展开/折叠-->
           <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick" default-expand-all :expand-on-click-node="false" ></el-tree>
       </el-aside>
-      <el-main>
+      <el-main style="padding-top:0px">
         <el-table
             :data="tableData"
             style="width: 100%">
+          <el-table-column label="序号" width="60">
+            <template slot-scope="scope">
+              {{ scope.$index + 1 }}
+            </template>
+          </el-table-column>
           <el-table-column
-              prop="date"
-              label="日期"
+              prop="number"
+              label="学号"
               width="180">
           </el-table-column>
           <el-table-column
@@ -20,8 +25,8 @@
               width="180">
           </el-table-column>
           <el-table-column
-              prop="address"
-              label="地址">
+              prop="className"
+              label="班级">
           </el-table-column>
         </el-table>
       </el-main>
@@ -45,27 +50,12 @@ export default {
         children: 'children',
         label: 'className'
       },
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      tableData: []
     }
   },
   created() {
-    this.buildTree()
+    this.buildTree();
+    this.buildTable('','');
   },
   mounted() {
 
@@ -75,7 +65,8 @@ export default {
   },
   methods:{
     handleNodeClick(node){
-      console.log(node)
+      //console.log(node)
+      this.buildTable('',node.id);
     },
     async buildTree(){
       try {
@@ -107,6 +98,21 @@ export default {
             children: this.build(data, item.id) // 递归查找子节点
           }));
     },
+    buildTable(name,classid){
+      let me=this;
+      axios({
+        url:'http://localhost:9090/studentInfo2',
+        method:'GET',
+        params:{
+          name:name,
+          classid:classid
+        }
+      }).then(res=>{
+        console.log(res.data);
+        me.tableData=res.data;
+      })
+
+    }
 
   }
 }
